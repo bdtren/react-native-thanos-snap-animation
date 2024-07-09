@@ -944,7 +944,7 @@ PODS:
   - React-Mapbuffer (0.73.8):
     - glog
     - React-debug
-  - react-native-thanos-snap-animation (0.1.0):
+  - react-native-thanos-snap-animation (0.9.9):
     - glog
     - RCT-Folly (= 2022.05.16.00)
     - React-Core
@@ -1363,7 +1363,7 @@ SPEC CHECKSUMS:
   React-jsinspector: 1729acf5ffe2d4439d698da25fddf0c75d07d1a1
   React-logger: 60afd40b183e8e6642bfd0108f1a1ad360cc665e
   React-Mapbuffer: 672a9342eb75a4d0663306e94d4dfc88aee73b93
-  react-native-thanos-snap-animation: a82c08a115dc31ab92b1e4fe7ea74611de703d8d
+  react-native-thanos-snap-animation: ab410f2ede33a077ab9fa6795a43837a1285cef9
   react-native-view-shot: 6b7ed61d77d88580fed10954d45fad0eb2d47688
   react-native-webview: 998fc075d16458361ef89ce34c263b659da5531f
   React-nativeconfig: 2e44d0d2dd222b12a5183f4bcaa4a91881497acb

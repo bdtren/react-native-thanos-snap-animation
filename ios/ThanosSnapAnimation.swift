@@ -1,8 +1,8 @@
 @objc(ThanosSnapAnimation)
 class ThanosSnapAnimation: NSObject {
 
-  @objc(multiply:withB:withResolver:withRejecter:)
-  func multiply(a: Float, b: Float, resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
-    resolve(a*b)
+@objc(sayHello:withRejecter:)
+  func sayHello(resolve:RCTPromiseResolveBlock,reject:RCTPromiseRejectBlock) -> Void {
+    resolve("BDtren: Hello world!")
   }
 }

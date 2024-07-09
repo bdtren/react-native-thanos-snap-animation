@@ -15,8 +15,8 @@ class ThanosSnapAnimationModule(reactContext: ReactApplicationContext) :
   // Example method
   // See https://reactnative.dev/docs/native-modules-android
   @ReactMethod
-  fun multiply(a: Double, b: Double, promise: Promise) {
-    promise.resolve(a * b)
+  fun sayHello() {
+    promise.resolve("BDtren: Hello world!")
   }
 
   companion object {

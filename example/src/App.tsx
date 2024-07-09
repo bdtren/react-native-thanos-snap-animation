@@ -1,6 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, Image, ActivityIndicator } from 'react-native';
-import { InfinityGauntlet } from 'react-native-thanos-snap-animation';
+import {
+  StyleSheet,
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  ActivityIndicator,
+} from 'react-native';
+import { InfinityGauntlet, sayHello } from 'react-native-thanos-snap-animation';
 import Card from './components/Card';
 
 export default function App() {
@@ -11,21 +18,27 @@ export default function App() {
   //Refs
   const startTimeRef = useRef(0);
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    sayHello().then(msg => {
+      console.log(msg);
+    });
+  }, []);
 
   return (
     <View style={styles.container}>
-      
-      <InfinityGauntlet snap={snap}
+      <InfinityGauntlet
+        snap={snap}
         onAnimationPrepare={() => {
           setAnimationReady(false);
           startTimeRef.current = Date.now();
-        }} onAnimationReady={() => {
+        }}
+        onAnimationReady={() => {
           setAnimationReady(true);
           setTimer(Date.now() - startTimeRef.current);
           console.log('animation ready');
-        }}>
-       <Card />
+        }}
+      >
+        <Card />
       </InfinityGauntlet>
 
       <TouchableOpacity
@@ -35,9 +48,9 @@ export default function App() {
           setSnap((prev) => !prev);
         }}
       >
-       {animationReady ? (
+        {animationReady ? (
           <>
-            <Image 
+            <Image
               source={require('./assets/snap-logo.png')}
               style={styles.snapImage}
               resizeMode={'contain'}
@@ -80,7 +93,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 40,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   snapImage: {
     width: 90,

@@ -1950,11 +1950,11 @@ __metadata:
   linkType: hard
 
 "@evilmartians/lefthook@npm:^1.5.0":
-  version: 1.6.21
-  resolution: "@evilmartians/lefthook@npm:1.6.21"
+  version: 1.7.1
+  resolution: "@evilmartians/lefthook@npm:1.7.1"
   bin:
     lefthook: bin/index.js
-  checksum: 8972ec33a125359f6f30563b4b3b1caad7abad7e0d0a4e13573921e2a8e8059861c1f5ab328c1f9584f9e73e49eb4b8592e57749dc3a17256ca3faf6b5e82dce
+  checksum: ebf745d4528d9f2fdab7044b63dc0f1f265397a9b345275977119186de438fc17fa5b55025b7200c8207a3f3b88b5754c7d38123a1e73320352bb28f68cef65e
   conditions: (os=darwin | os=linux | os=win32) & (cpu=x64 | cpu=arm64 | cpu=ia32)
   languageName: node
   linkType: hard
@@ -6241,9 +6241,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.4.796":
-  version: 1.4.818
-  resolution: "electron-to-chromium@npm:1.4.818"
-  checksum: 7ff9b1f0a17c013ff020530d35a002a6e42f6cb8207be26d25796615d7099da409351a8ee2fde0e796369251906bdbb7d32eec5dbe413547037ea0436d6287d7
+  version: 1.4.819
+  resolution: "electron-to-chromium@npm:1.4.819"
+  checksum: a73c1afaf603aa370ffdae0c957ac2d9b5e64606ea07c861ee9042299e47d293d58e19c7e85e2f91bab9a63c1d42d28539764930d87339e6215a2ae0cba4da17
   languageName: node
   linkType: hard
 
@@ -6841,11 +6841,11 @@ __metadata:
   linkType: hard
 
 "esquery@npm:^1.4.2":
-  version: 1.5.0
-  resolution: "esquery@npm:1.5.0"
+  version: 1.6.0
+  resolution: "esquery@npm:1.6.0"
   dependencies:
     estraverse: ^5.1.0
-  checksum: aefb0d2596c230118656cd4ec7532d447333a410a48834d80ea648b1e7b5c9bc9ed8b5e33a89cb04e487b60d622f44cf5713bf4abed7c97343edefdc84a35900
+  checksum: 08ec4fe446d9ab27186da274d979558557fbdbbd10968fa9758552482720c54152a5640e08b9009e5a30706b66aba510692054d4129d32d0e12e05bbc0b96fb2
   languageName: node
   linkType: hard
 
@@ -7243,9 +7243,9 @@ __metadata:
   linkType: hard
 
 "flow-parser@npm:0.*":
-  version: 0.239.0
-  resolution: "flow-parser@npm:0.239.0"
-  checksum: 20d75183560a901f458878958f8e59c9ca82f118bbb5d265bc67143d4ae6db2b2ee52bc38391d9a4053e623de6ef9c0ca11d24b66cf5b64e5c6ceb873f38192d
+  version: 0.239.1
+  resolution: "flow-parser@npm:0.239.1"
+  checksum: b0852c611fc4e3e401f26e2680b7b924460807c1f79f81da5a0f61b98a0cea6ad10ba62826bb7c6134b73356101df2e1ca43a7c3ba5ea2b6a564500e48ab385a
   languageName: node
   linkType: hard
 
@@ -7572,8 +7572,8 @@ __metadata:
   linkType: hard
 
 "glob@npm:^10.2.2, glob@npm:^10.3.10":
-  version: 10.4.3
-  resolution: "glob@npm:10.4.3"
+  version: 10.4.4
+  resolution: "glob@npm:10.4.4"
   dependencies:
     foreground-child: ^3.1.0
     jackspeak: ^3.1.2
@@ -7583,7 +7583,7 @@ __metadata:
     path-scurry: ^1.11.1
   bin:
     glob: dist/esm/bin.mjs
-  checksum: a1daeb570b841480fe95b3dd9492a98a58759186d14cf2ebe81057c3f308b47980d5e757b533422dbc5288ebf7b06b169960ce9f71198d7dbe320bc5068f89f0
+  checksum: 49d3b15d73f3557fa6efe6ba150c500917aa6326fab556849e3acb89866ce0b0773c71089d40585c00590b62b72655414e34c7188a9ef57040e933533f0483f7
   languageName: node
   linkType: hard
 
@@ -8949,15 +8949,15 @@ __metadata:
   linkType: hard
 
 "jackspeak@npm:^3.1.2":
-  version: 3.4.1
-  resolution: "jackspeak@npm:3.4.1"
+  version: 3.4.2
+  resolution: "jackspeak@npm:3.4.2"
   dependencies:
     "@isaacs/cliui": ^8.0.2
     "@pkgjs/parseargs": ^0.11.0
   dependenciesMeta:
     "@pkgjs/parseargs":
       optional: true
-  checksum: 772483c6835f01b4e06eaaf3cf7fa65a0d5e0f2fd3b7290f657df4602b013c60efa53bebd64489862bc7a290167e7671bb41a990512c91e25d2e89c82b2628b8
+  checksum: 1c5c1ae84bd047d473ccfea0433d1dbb1677f87511d32f7c005ae3e4a4263439784022e308cf20a9d1fcc6c2e61ab86994b5f81f9f599849d75f58883ac7e151
   languageName: node
   linkType: hard
 
@@ -9937,9 +9937,9 @@ __metadata:
   linkType: hard
 
 "lru-cache@npm:^10.0.1, lru-cache@npm:^10.2.0":
-  version: 10.4.0
-  resolution: "lru-cache@npm:10.4.0"
-  checksum: 6816a809a225faaa29ae2075ef6493cebb7374c14fc4a56a44f2aeaa2a2dc33c83043eb4d653fc72cf3ea89507dc51def19e6e07fa57351b9f40449d7c37fb0d
+  version: 10.4.1
+  resolution: "lru-cache@npm:10.4.1"
+  checksum: 8acb35d9c2195ec98ec5002850750d7af45ae0cf19376e11a3a1655b3e5bccc0cc6b7192274bcabc9d42c6e2a9769033ffea0310e546c4e2cc55efe3a4b5da75
   languageName: node
   linkType: hard
 
@@ -11814,11 +11814,11 @@ __metadata:
   linkType: hard
 
 "qs@npm:^6.11.2":
-  version: 6.12.2
-  resolution: "qs@npm:6.12.2"
+  version: 6.12.3
+  resolution: "qs@npm:6.12.3"
   dependencies:
     side-channel: ^1.0.6
-  checksum: cb141456f3e518b4212177f5658168acbab60c90735f27f131336f7ae0286b51402911d4a0a786d83d3ba4aa801c032383b4304b28474de00388eb95cf988c8c
+  checksum: 9a9228a623bc36d41648237667d7342fb8d64d1cfeb29e474b0c44591ba06ac507e2d726f60eca5af8dc420e5dd23370af408ef8c28e0405675c7187b736a693
   languageName: node
   linkType: hard
 
@@ -12095,16 +12095,16 @@ __metadata:
     turbo: ^1.10.7
     typescript: ^5.2.2
   peerDependencies:
-    chance: ^1.1.11
-    node-libs-react-native: ^1.2.1
-    pngjs: ^7.0.0
+    chance: ">=1.1.11"
+    node-libs-react-native: ">=1.2.1"
+    pngjs: ">=7.0.0"
     react: "*"
     react-native: "*"
-    react-native-canvas: ^0.1.40
-    react-native-pose: ^0.9.1
-    react-native-view-shot: ^3.8.0
-    react-native-webview: ^13.10.5
-    stream-browserify: ^3.0.0
+    react-native-canvas: ">=0.1.40"
+    react-native-pose: ">=0.9.1"
+    react-native-view-shot: ">=3.8.0"
+    react-native-webview: ">=13.10.5"
+    stream-browserify: ">=3.0.0"
   languageName: unknown
   linkType: soft
 

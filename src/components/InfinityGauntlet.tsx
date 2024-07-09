@@ -141,7 +141,8 @@ const InfinityGauntlet: React.FC<InfinityGauntletProps> = ({
     } else {
       onAnimationPrepare?.();
     }
-  }, [animationReady, onAnimationReady, onAnimationPrepare]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [animationReady]);
   useEffect(() => {
     if (!error && (error + '')?.length) {
       onError?.(error);
