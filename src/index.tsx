@@ -23,4 +23,4 @@ import InfinityGauntlet from './components/InfinityGauntlet';
 //   return ThanosSnapAnimation.multiply(a, b);
 // }
 
-export {InfinityGauntlet};
+export { InfinityGauntlet };

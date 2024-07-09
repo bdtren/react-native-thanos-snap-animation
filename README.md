@@ -18,13 +18,13 @@ Please at first, take a look at those repos's install instructions
 
 ### Step 1:
 ```sh
-npm install react-native-thanos-snap-animation react-native-webiew react-native-view-shot
+npm install react-native-thanos-snap-animation react-native-webview react-native-view-shot
 
 cd ios && pod install
 ```
 or 
 ```sh
-yarn add react-native-thanos-snap-animation react-native-webiew react-native-view-shot
+yarn add react-native-thanos-snap-animation react-native-webview react-native-view-shot
 
 cd ios && pod install
 ```
@@ -73,6 +73,7 @@ const [snap, setSnap] = useState(false);
 
 - [ ] Fix all //FIXME tag
 - [ ] Reduce initial time, currently Arrays manipulation and filter is too slow, especially `weightedRandomDistrib`. Use native module?
+- [ ] Implement blur animation
 
 ## Contributing
 

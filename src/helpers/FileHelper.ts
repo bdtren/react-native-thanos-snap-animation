@@ -1,6 +1,6 @@
-import Canvas, {ImageData} from 'react-native-canvas';
+import Canvas, { ImageData } from 'react-native-canvas';
 import AppHelper from './AppHelper';
-import {PNG} from 'pngjs';
+import { PNG } from 'pngjs';
 
 const MAX_EXTEND = 221;
 const MAX_EXTEND_SQUARE = MAX_EXTEND * MAX_EXTEND;
@@ -8,7 +8,7 @@ export default class FileHelper {
   static base64File = async (url: string) => {
     const data = await fetch(url);
     const blob = await data.blob();
-    return new Promise<string>(resolve => {
+    return new Promise<string>((resolve) => {
       const reader = new FileReader();
       reader.readAsDataURL(blob);
       reader.onloadend = () => {
@@ -30,7 +30,7 @@ export default class FileHelper {
     const w = Math.floor(canvas.width) * 3;
     const h = Math.floor(canvas.height) * 3;
     const ctx = canvas.getContext('2d');
-    let data: number[] = Array.from({length: 4 * w * h}, _ => 0);
+    let data: number[] = Array.from({ length: 4 * w * h }, (_) => 0);
 
     let x = 0,
       y = 0,
@@ -39,7 +39,7 @@ export default class FileHelper {
     while (/*x < w ||*/ y <= h) {
       const currW = MAX_EXTEND_SQUARE > w ? w : MAX_EXTEND_SQUARE;
       const currH = Math.floor(
-        MAX_EXTEND_SQUARE / currW + y > h ? h : MAX_EXTEND_SQUARE / currW,
+        MAX_EXTEND_SQUARE / currW + y > h ? h : MAX_EXTEND_SQUARE / currW
       );
 
       // const dt = await ctx.getImageData(x, y, currW, currH);
@@ -55,7 +55,7 @@ export default class FileHelper {
     }
 
     await Promise.all([
-      ...[...(promiseMap?.keys() ?? [])]?.map(async prmK => {
+      ...[...(promiseMap?.keys() ?? [])]?.map(async (prmK) => {
         const dt = await promiseMap.get(prmK);
         const vals = Object.values(dt?.data ?? {});
         vals?.forEach((it, idx) => {

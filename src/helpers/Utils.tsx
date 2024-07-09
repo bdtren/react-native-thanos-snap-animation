@@ -1,7 +1,7 @@
 import React from 'react';
 import Chance from 'chance';
 import Dust from '../components/Dust';
-import {UIState} from '../components/types/common.types';
+import { UIState } from '../components/types/common.types';
 import Canvas from 'react-native-canvas';
 const chance = new Chance();
 
@@ -16,8 +16,8 @@ export function weightedRandomDistrib(peak: number, canvasCount: number) {
 }
 
 export function createBlankImageData(length: number, canvasCount: number) {
-  const imageDataArray: number[][] = Array.from({length: canvasCount}, _ =>
-    Array.from({length}, __ => 0),
+  const imageDataArray: number[][] = Array.from({ length: canvasCount }, (_) =>
+    Array.from({ length }, (__) => 0)
   );
   return imageDataArray;
 }
@@ -26,7 +26,7 @@ export function generateBlankCanvas(
   refs: React.MutableRefObject<React.RefObject<Canvas>[]>,
   state: UIState,
   canvasCount: number,
-  zIndex: number,
+  zIndex: number
 ) {
   const canvases = [];
   for (let a = 0; a < canvasCount; a++) {
@@ -41,7 +41,7 @@ export function generateBlankCanvas(
       pose: state,
       x: 75,
       y: -75,
-      rotate: chance.integer({min: -20, max: 20}),
+      rotate: chance.integer({ min: -20, max: 20 }),
       forwardedRef: refs.current[a],
     };
 
@@ -51,7 +51,7 @@ export function generateBlankCanvas(
         canvasProps={{
           ref: refs.current[a],
         }}
-      />,
+      />
     );
   }
   return canvases;

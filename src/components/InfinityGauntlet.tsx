@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useRef, useMemo, createRef} from 'react';
+import React, { useState, useEffect, useRef, useMemo, createRef } from 'react';
 import {
   InteractionManager,
   LayoutRectangle,
@@ -8,7 +8,7 @@ import {
   ViewStyle,
 } from 'react-native';
 import ViewShot from 'react-native-view-shot';
-import Canvas, {Image as CanvasImage, ImageData} from 'react-native-canvas';
+import Canvas, { Image as CanvasImage, ImageData } from 'react-native-canvas';
 import posed from 'react-native-pose';
 import {
   createBlankImageData,
@@ -17,7 +17,7 @@ import {
 } from '../helpers/Utils';
 import FileHelper from '../helpers/FileHelper';
 import AppHelper from '../helpers/AppHelper';
-import type {UIState} from './types/common.types';
+import type { UIState } from './types/common.types';
 
 const DEFAULT_CANVAS_COUNT = 32;
 
@@ -47,7 +47,7 @@ const OriginalElement = posed.View({
   },
   hidden: {
     opacity: 0,
-    transition: {duration: 1000},
+    transition: { duration: 1000 },
     // filter: 'blur(1px)',
   },
 });
@@ -95,7 +95,7 @@ const InfinityGauntlet: React.FC<InfinityGauntletProps> = ({
   const imgUrlRef = useRef(imgUrl);
   const canvasRef = useRef<Canvas>();
   const particleRefs = useRef(
-    Array.from({length: canvasCount}, _ => createRef<Canvas>()),
+    Array.from({ length: canvasCount }, (_) => createRef<Canvas>())
   );
   const imageDataArrayRef = useRef<number[][]>([]);
 
@@ -110,18 +110,19 @@ const InfinityGauntlet: React.FC<InfinityGauntletProps> = ({
         setTimeout(() => {
           viewshotRef.current
             ?.capture?.()
-            ?.then(url => {
+            ?.then((url) => {
               // console.log('capture img --,>', url);
               setImgUrl(url);
               imgUrlRef.current = url;
             })
-            ?.catch(e => {
+            ?.catch((e) => {
               // console.log('capture err --,>', e);
               setError(e);
             });
         }, 300);
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
     loadSnapshot();
@@ -132,6 +133,7 @@ const InfinityGauntlet: React.FC<InfinityGauntletProps> = ({
       setError('');
       handleSnap(canvasRef.current, snap, imgBase64);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [drawComplete, imgBase64, snap]);
   useEffect(() => {
     if (animationReady) {
@@ -139,12 +141,12 @@ const InfinityGauntlet: React.FC<InfinityGauntletProps> = ({
     } else {
       onAnimationPrepare?.();
     }
-  }, [animationReady]);
+  }, [animationReady, onAnimationReady, onAnimationPrepare]);
   useEffect(() => {
     if (!error && (error + '')?.length) {
       onError?.(error);
     }
-  }, [error]);
+  }, [error, onError]);
 
   const handleCanvas = (canvas: Canvas) => {
     if (!canvas) {
@@ -165,12 +167,12 @@ const InfinityGauntlet: React.FC<InfinityGauntletProps> = ({
       setImgBase64(image.src);
       const context = canvasRef.current?.getContext('2d');
 
-      image.addEventListener('error', props => {
+      image.addEventListener('error', (props) => {
         console.log('image load error --,>', props);
         setError(props);
       });
 
-      image.addEventListener('load', async _props => {
+      image.addEventListener('load', async (_props) => {
         context.drawImage(image, 0, 0, snapLayout?.width, snapLayout?.height);
         setTimeout(() => {
           setError('');
@@ -183,7 +185,7 @@ const InfinityGauntlet: React.FC<InfinityGauntletProps> = ({
   async function handleSnap(
     canvas: Canvas,
     lSnap: boolean,
-    lImgBase64: string,
+    lImgBase64: string
   ) {
     try {
       setParticleVisibility(true);
@@ -197,7 +199,7 @@ const InfinityGauntlet: React.FC<InfinityGauntletProps> = ({
 
         imageDataArrayRef.current = createBlankImageData(
           pixelArrLength,
-          canvasCount,
+          canvasCount
         );
         // console.log('len --,>', pixelArr?.length, pixelArrLength);
 
@@ -226,10 +228,10 @@ const InfinityGauntlet: React.FC<InfinityGauntletProps> = ({
                     ref.current,
                     imageDataArrayRef.current[idx] as any,
                     w,
-                    h,
+                    h
                   ),
                   0,
-                  0,
+                  0
                 );
                 // console.log('putImageData s--,>', idx, imageDataArray[idx]?.length % 4);
               } catch (e) {
@@ -308,7 +310,8 @@ const InfinityGauntlet: React.FC<InfinityGauntletProps> = ({
           height: snapLayout?.height ?? 'auto',
         },
         style,
-      ]}>
+      ]}
+    >
       <OriginalElement
         pose={state}
         onPoseComplete={() => {
@@ -320,10 +323,11 @@ const InfinityGauntlet: React.FC<InfinityGauntletProps> = ({
               }
               onAnimationCompleted?.(state);
             },
-            state === 'visible' ? 0 : 1400,
+            state === 'visible' ? 0 : 1400
           );
         }}
-        style={[styles.originalElement, {zIndex}, originalElementStyle]}>
+        style={[styles.originalElement, { zIndex }, originalElementStyle]}
+      >
         <Canvas
           ref={handleCanvas}
           originWhitelist={['*']}
@@ -342,9 +346,10 @@ const InfinityGauntlet: React.FC<InfinityGauntletProps> = ({
             quality: 1,
           }}
           style={styles.snapshot}
-          onLayout={l => {
+          onLayout={(l) => {
             setSnapLayout(l?.nativeEvent?.layout);
-          }}>
+          }}
+        >
           {children}
         </ViewShot>
       </OriginalElement>
@@ -356,7 +361,8 @@ const InfinityGauntlet: React.FC<InfinityGauntletProps> = ({
           canvasContainerStyle,
         ]}
         key={1}
-        pose={state}>
+        pose={state}
+      >
         {canvases}
       </CanvasContainer>
     </View>
