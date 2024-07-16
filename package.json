@@ -1,6 +1,6 @@
 {
   "name": "react-native-thanos-snap-animation",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "implement Thanos dust animation into react native",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
