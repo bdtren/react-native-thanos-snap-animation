@@ -18,6 +18,7 @@ import {
 import FileHelper from '../helpers/FileHelper';
 import AppHelper from '../helpers/AppHelper';
 import type { UIState } from './types/common.types';
+import WebView from 'react-native-webview';
 
 const DEFAULT_CANVAS_COUNT = 32;
 
@@ -54,16 +55,65 @@ const OriginalElement = posed.View({
 
 export type InfinityGauntletProps = {
   children?: React.ReactNode;
+  /**
+   * (optional), default: `32`
+   * Number of canvas use for dust animation, the more canvas the more smooth look on the animation, but also more lagging and slower initial
+   */
   canvasCount?: number;
+  /**
+   * (optional), default: `2`
+   * Index of the component in UI stack, use this if you want to bring your UI to front
+   */
   zIndex?: number;
+  /**
+   * (optional)
+   * Set the snap animation state
+   */
   snap?: boolean;
+  /**
+   * (optional)
+   * Flag to reduce re-init the animation canvas when you update the main component
+   */
   disablePrepareOnReload?: boolean;
+  /**
+   * (optional), default: `true`
+   * Move some heavy function to webview, this can reduce some time but may not supported in big components or some devices with low memory heap
+   */
+  useWebviewHandler?: boolean;
+  /**
+   * (optional)
+   * Trigger when dust animation initialization start
+   */
   onAnimationPrepare?: () => any;
+  /**
+   * (optional)
+   * Trigger when dust animation is ready to use
+   */
   onAnimationReady?: () => any;
+  /**
+   * (optional)
+   * Trigger when there is an error in the component functions
+   */
   onError?: (error?: any) => any;
+  /**
+   * (optional)
+   * Trigger when snap animation is completed
+   */
   onAnimationCompleted?: (state?: UIState) => any;
+  /**
+   * (optional)
+   * Style of the Wrapper
+   */
   style?: StyleProp<ViewStyle>;
+  /**
+   * (optional)
+   * Style of the Main UI component
+   */
   originalElementStyle?: StyleProp<ViewStyle>;
+  /**
+   * (optional)
+   * Style of the dust canvas list
+   */
   canvasContainerStyle?: StyleProp<ViewStyle>;
 };
 
@@ -73,6 +123,7 @@ const InfinityGauntlet: React.FC<InfinityGauntletProps> = ({
   zIndex = 2,
   snap = false,
   disablePrepareOnReload,
+  useWebviewHandler = true,
   onAnimationPrepare,
   onAnimationReady,
   onError,
@@ -91,6 +142,8 @@ const InfinityGauntlet: React.FC<InfinityGauntletProps> = ({
   const [animationReady, setAnimationReady] = useState(false);
   const [error, setError] = useState<any>('');
   //Refs
+  const webviewRef = useRef<WebView>(null);
+  const webViewReceivedValueRef = useRef('');
   const viewshotRef = useRef<ViewShot>(null);
   const imgUrlRef = useRef(imgUrl);
   const canvasRef = useRef<Canvas>();
@@ -178,7 +231,7 @@ const InfinityGauntlet: React.FC<InfinityGauntletProps> = ({
         setTimeout(() => {
           setError('');
           setDrawComplete(true);
-        }, 1000);
+        }, 20);
       });
     }
   };
@@ -198,51 +251,118 @@ const InfinityGauntlet: React.FC<InfinityGauntletProps> = ({
         const pixelArrLength = h * w * 4; // pixelArr?.length;
         var pixelArr = await FileHelper.base64PNGToByteArray(lImgBase64); //await FileHelper.getCanvasImageData(canvas);
 
-        imageDataArrayRef.current = createBlankImageData(
-          pixelArrLength,
-          canvasCount
-        );
-        // console.log('len --,>', pixelArr?.length, pixelArrLength);
+        if (useWebviewHandler) {
+          webViewReceivedValueRef.current = '';
+          await fetch('https://chancejs.com/chance.min.js')
+            .then((res) => res.text())
+            .then((res) => {
+              webviewRef.current?.injectJavaScript(res);
+            })
+            .catch(console.log);
 
-        for (let i = 0; i < pixelArrLength; i += 4) {
-          //Find the highest probability canvas the pixel should be in
-          let p = Math.floor((i / pixelArrLength) * canvasCount);
-          const rand = weightedRandomDistrib(p, canvasCount);
-          let a = imageDataArrayRef.current[rand];
-          if (a) {
-            a[i] = pixelArr[i] ?? 0;
-            a[i + 1] = pixelArr[i + 1] ?? 0;
-            a[i + 2] = pixelArr[i + 2] ?? 0;
-            a[i + 3] = pixelArr[i + 3] ?? 0;
-          }
-        }
-
-        await Promise.all([
-          ...particleRefs.current.map(async (ref, idx) => {
-            if (ref.current) {
-              ref.current.width = w / 3;
-              ref.current.height = h / 3;
-              const ctx2 = ref.current.getContext('2d');
-              try {
-                ctx2.putImageData(
-                  new ImageData(
-                    ref.current,
-                    imageDataArrayRef.current[idx] as any,
-                    w,
-                    h
-                  ),
-                  0,
-                  0
-                );
-                // console.log('putImageData s--,>', idx, imageDataArray[idx]?.length % 4);
-              } catch (e) {
-                // console.log('putImageData e--,>', idx, imageDataArray[idx]?.length % 4);
+          webviewRef.current?.injectJavaScript(`
+            const chance = new Chance();
+            function weightedRandomDistrib(peak, canvasCount) {
+              var prob = [],
+                seq = [];
+              for (let i = 0; i < canvasCount; i++) {
+                prob.push(Math.pow(canvasCount - Math.abs(peak - i), 3));
+                seq.push(i);
               }
+              return chance.weighted(seq, prob);
             }
-            await AppHelper.delay(1);
-          }),
-        ]);
-        setAnimationReady(true);
+
+            setTimeout(() => {
+              let pixelArr = JSON.parse("${JSON.stringify(pixelArr)}");
+              const imageDataArray = Array.from({ length: ${canvasCount} }, (_) =>
+                Array.from({ length: ${pixelArrLength} }, (__) => 0)
+              );
+
+              for (let i = 0; i < ${pixelArrLength}; i += 4) {
+                //Find the highest probability canvas the pixel should be in
+                let p = Math.floor((i / ${pixelArrLength}) * ${canvasCount});
+
+                const rand = weightedRandomDistrib(p, ${canvasCount});
+
+                let a = imageDataArray[rand];
+
+                if (a) {
+                  a[i] = pixelArr[i] ?? 0;
+                  a[i + 1] = pixelArr[i + 1] ?? 0;
+                  a[i + 2] = pixelArr[i + 2] ?? 0;
+                  a[i + 3] = pixelArr[i + 3] ?? 0;
+                }
+              }
+
+              try {
+                const resStr = JSON.stringify(imageDataArray);
+                // alert('str length: ' + resStr?.length)
+                const charsPerChunk = 150000;
+                let len = 0;
+                let index = 0;
+                while (len < resStr?.length) {
+                  window.ReactNativeWebView.postMessage(JSON.stringify({
+                    index,
+                    value: resStr?.slice(len, len + charsPerChunk),
+                    isEnd: (len + charsPerChunk) >= resStr?.length
+                  }));
+
+                  index++;
+                  len += charsPerChunk;
+                }
+              } catch (e) {
+                // alert(12, e, e?.message);
+              }
+            }, 450);
+          `);
+          return;
+        } else {
+          imageDataArrayRef.current = createBlankImageData(
+            pixelArrLength,
+            canvasCount
+          );
+          // console.log('len --,>', pixelArr?.length, pixelArrLength);
+
+          for (let i = 0; i < pixelArrLength; i += 4) {
+            //Find the highest probability canvas the pixel should be in
+            let p = Math.floor((i / pixelArrLength) * canvasCount);
+            const rand = weightedRandomDistrib(p, canvasCount);
+            let a = imageDataArrayRef.current[rand];
+            if (a) {
+              a[i] = pixelArr[i] ?? 0;
+              a[i + 1] = pixelArr[i + 1] ?? 0;
+              a[i + 2] = pixelArr[i + 2] ?? 0;
+              a[i + 3] = pixelArr[i + 3] ?? 0;
+            }
+          }
+
+          await Promise.all([
+            ...particleRefs.current.map(async (ref, idx) => {
+              if (ref.current) {
+                ref.current.width = w / 3;
+                ref.current.height = h / 3;
+                const ctx2 = ref.current.getContext('2d');
+                try {
+                  ctx2.putImageData(
+                    new ImageData(
+                      ref.current,
+                      imageDataArrayRef.current[idx] as any,
+                      w,
+                      h
+                    ),
+                    0,
+                    0
+                  );
+                  // console.log('putImageData s--,>', idx, imageDataArray[idx]?.length % 4);
+                } catch (e) {
+                  // console.log('putImageData e--,>', idx, imageDataArray[idx]?.length % 4);
+                }
+              }
+              await AppHelper.delay(1);
+            }),
+          ]);
+          setAnimationReady(true);
+        }
       } else {
         setAnimationReady(true);
       }
@@ -250,57 +370,72 @@ const InfinityGauntlet: React.FC<InfinityGauntletProps> = ({
         setState('visible');
       } else {
         setState('hidden');
-        // if (imageDataArray.length === 0) {
-        //   const w = Math.floor(canvas.width - 1) * 3;
-        //   const h = Math.floor(canvas.height - 1) * 3;
-
-        //   var pixelArr = await FileHelper.getCanvasImageData(canvas);
-        //   const pixelArrLength = h * w * 4; // pixelArr?.length;
-
-        //   imageDataArray = createBlankImageData(
-        //     // data,
-        //     pixelArrLength,
-        //     canvasCount,
-        //   );
-
-        //   for (let i = 0; i < pixelArrLength; i += 4) {
-        //     //Find the highest probability canvas the pixel should be in
-        //     let p = Math.floor((i / pixelArrLength) * canvasCount);
-        //     const rand = weightedRandomDistrib(p, canvasCount);
-        //     let a = imageDataArray[rand];
-        //     a[i] = pixelArr[i];
-        //     a[i + 1] = pixelArr[i + 1];
-        //     a[i + 2] = pixelArr[i + 2];
-        //     a[i + 3] = pixelArr[i + 3];
-        //   }
-        //   Promise.all([
-        //     ...particleRefs.current.map(async (ref, idx) => {
-        //       if (ref.current) {
-        //         ref.current.width = w / 3;
-        //         ref.current.height = h / 3;
-        //         const ctx2 = ref.current.getContext('2d');
-        //         try {
-        //           ctx2.putImageData(
-        //             new ImageData(ref.current, imageDataArray[idx] as any, w, h),
-        //             0,
-        //             0,
-        //           );
-        //         } catch (e) {}
-        //       }
-        //       await AppHelper.delay(1);
-        //     }),
-        //   ]).then(() => {
-        //     setState('hidden');
-        //   });
-        // } else {
-        //   setState('hidden');
-        // }
       }
     } catch (e) {
       console.log('handleSnap error --,>', e);
       setError(e);
     }
   }
+
+  const renderHiddenWebview = () => {
+    return (
+      <WebView
+        ref={webviewRef}
+        style={styles.hiddenWebview}
+        containerStyle={styles.hiddenWebview}
+        source={{
+          html: `<body></body>`,
+        }}
+        onMessage={async (e) => {
+          let data: any = {};
+          try {
+            data = JSON.parse(e?.nativeEvent?.data);
+            webViewReceivedValueRef.current += data?.value;
+          } catch (err) {}
+          // console.log('received --,>', data?.index, data?.isEnd);
+          if (data?.isEnd && canvasRef?.current) {
+            imageDataArrayRef.current = JSON.parse(
+              webViewReceivedValueRef.current
+            );
+            await AppHelper.delay(1);
+            const w = Math.floor(canvasRef.current.width) * 3;
+            const h = Math.floor(canvasRef.current.height) * 3;
+
+            await Promise.all([
+              ...particleRefs.current.map(async (ref, idx) => {
+                if (ref.current) {
+                  ref.current.width = w / 3;
+                  ref.current.height = h / 3;
+                  const ctx2 = ref.current.getContext('2d');
+                  try {
+                    ctx2.putImageData(
+                      new ImageData(
+                        ref.current,
+                        imageDataArrayRef.current[idx] as any,
+                        w,
+                        h
+                      ),
+                      0,
+                      0
+                    );
+                    // console.log('putImageData s--,>', idx, imageDataArray[idx]?.length % 4);
+                  } catch (err) {
+                    // console.log('putImageData e--,>', idx, imageDataArray[idx]?.length % 4);
+                  }
+                }
+                await AppHelper.delay(1);
+              }),
+            ]);
+            setAnimationReady(true);
+          }
+        }}
+        injectedJavaScript={''}
+        javaScriptEnabled={true}
+        domStorageEnabled={true}
+        originWhitelist={['*']}
+      />
+    );
+  };
 
   return (
     <View
@@ -366,6 +501,7 @@ const InfinityGauntlet: React.FC<InfinityGauntletProps> = ({
       >
         {canvases}
       </CanvasContainer>
+      {useWebviewHandler ? renderHiddenWebview() : undefined}
     </View>
   );
 };
@@ -387,4 +523,9 @@ const styles = StyleSheet.create({
     position: 'absolute',
   },
   image: {},
+  hiddenWebview: {
+    position: 'absolute',
+    width: 0,
+    height: 0,
+  },
 });

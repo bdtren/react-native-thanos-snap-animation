@@ -57,23 +57,25 @@ const [snap, setSnap] = useState(false);
   ### Props
   | Name | type | usage |
   | :--------:|:----------------------:|:-------------------:|
-  | canvasCount | number (optional), default: 32 | Number of canvas use for dust animation, the more canvas the more smooth look on the animation, but also more lagging and slower initial |
-  | zIndex | number (optional), default: 2 | Index of the component in UI stack, use this if you want to bring your UI to front |
+  | canvasCount | number (optional), default: `32` | Number of canvas use for dust animation, the more canvas the more smooth look on the animation, but also more lagging and slower initial |
+  | zIndex | number (optional), default: `2` | Index of the component in UI stack, use this if you want to bring your UI to front |
   | snap | boolean (optional) | Set the snap animation state |
   | disablePrepareOnReload | boolean (optional) | Flag to reduce re-init the animation canvas when you update the main component |
+  | useWebviewHandler | boolean (optional), default: `true` | Move some heavy function to webview, this can reduce some time but may not supported in big components or some devices with low memory heap |
   | onAnimationPrepare | () => any (optional) | Trigger when dust animation initialization start |
   | onAnimationReady | () => any (optional) | Trigger when dust animation is ready to use |
   | onError | (error?: any) => any (optional) | Trigger when there is an error in the component functions |
-  | onAnimationCompleted | (state?: UIState) => any (optional). <br/>`UIState` are 'visible' or 'hidden' | Trigger when snap animation is completed
+  | onAnimationCompleted | (state?: UIState) => any (optional). <br/>`UIState` are 'visible' or 'hidden' | Trigger when snap animation is completed |
   | style | StyleProp<ViewStyle> (optional) | Style of the Wrapper |
   | originalElementStyle | StyleProp<ViewStyle> (optional) | Style of the Main UI component |
   | canvasContainerStyle | StyleProp<ViewStyle> (optional) | Style of the dust canvas list |
 
 ## TODO list
 
-- [ ] Fix all //FIXME tag
+- [ ] Fix all //FIXME tags
 - [ ] Reduce initial time, currently Arrays manipulation and filter is too slow, especially `weightedRandomDistrib`. Use native module?
 - [ ] Implement blur animation
+- [ ] Support animation duration
 
 ## Contributing
 

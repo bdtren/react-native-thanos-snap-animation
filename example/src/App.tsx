@@ -19,7 +19,7 @@ export default function App() {
   const startTimeRef = useRef(0);
 
   useEffect(() => {
-    sayHello().then(msg => {
+    sayHello().then((msg) => {
       console.log(msg);
     });
   }, []);

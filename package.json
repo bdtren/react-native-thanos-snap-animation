@@ -37,7 +37,13 @@
   "keywords": [
     "react-native",
     "ios",
-    "android"
+    "android",
+    "thanos",
+    "thanos-snap",
+    "thanos snap",
+    "react-native-thanos-snap",
+    "react native thanos snap",
+    "react-native-thanos-snap-animation"
   ],
   "repository": {
     "type": "git",

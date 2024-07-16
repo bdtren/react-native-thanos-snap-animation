@@ -28,14 +28,14 @@ const styles = StyleSheet.create({
   btn: {
     width: 60,
     height: 40,
-    backgroundColor: '#930018',
+    backgroundColor: '#A38DC9',
     justifyContent: 'center',
     alignItems: 'center',
   },
   btn2: {
     width: 120,
     height: 60,
-    backgroundColor: '#FDB32A',
+    backgroundColor: '#AEC997',
     marginTop: 80,
     alignSelf: 'center',
     justifyContent: 'center',
