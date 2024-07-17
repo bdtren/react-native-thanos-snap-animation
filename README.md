@@ -61,7 +61,7 @@ const [snap, setSnap] = useState(false);
   | zIndex | number (optional), default: `2` | Index of the component in UI stack, use this if you want to bring your UI to front |
   | snap | boolean (optional) | Set the snap animation state |
   | disablePrepareOnReload | boolean (optional) | Flag to reduce re-init the animation canvas when you update the main component |
-  | useWebviewHandler | boolean (optional), default: `true` | Move some heavy function to webview, this can reduce some time but may not supported in big components or some devices with low memory heap |
+  | useWebViewHandler | boolean (optional), default: `true` | Move some heavy function to webview, this can reduce some time but may not supported in big components or some devices with low memory heap |
   | onAnimationPrepare | () => any (optional) | Trigger when dust animation initialization start |
   | onAnimationReady | () => any (optional) | Trigger when dust animation is ready to use |
   | onError | (error?: any) => any (optional) | Trigger when there is an error in the component functions |

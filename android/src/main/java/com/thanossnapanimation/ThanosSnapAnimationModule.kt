@@ -15,7 +15,7 @@ class ThanosSnapAnimationModule(reactContext: ReactApplicationContext) :
   // Example method
   // See https://reactnative.dev/docs/native-modules-android
   @ReactMethod
-  fun sayHello() {
+  fun sayHello(promise: Promise) {
     promise.resolve("BDtren: Hello world!")
   }
 

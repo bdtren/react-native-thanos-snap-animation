@@ -79,7 +79,7 @@ export type InfinityGauntletProps = {
    * (optional), default: `true`
    * Move some heavy function to webview, this can reduce some time but may not supported in big components or some devices with low memory heap
    */
-  useWebviewHandler?: boolean;
+  useWebViewHandler?: boolean;
   /**
    * (optional)
    * Trigger when dust animation initialization start
@@ -123,7 +123,7 @@ const InfinityGauntlet: React.FC<InfinityGauntletProps> = ({
   zIndex = 2,
   snap = false,
   disablePrepareOnReload,
-  useWebviewHandler = true,
+  useWebViewHandler = true,
   onAnimationPrepare,
   onAnimationReady,
   onError,
@@ -251,7 +251,7 @@ const InfinityGauntlet: React.FC<InfinityGauntletProps> = ({
         const pixelArrLength = h * w * 4; // pixelArr?.length;
         var pixelArr = await FileHelper.base64PNGToByteArray(lImgBase64); //await FileHelper.getCanvasImageData(canvas);
 
-        if (useWebviewHandler) {
+        if (useWebViewHandler) {
           webViewReceivedValueRef.current = '';
           await fetch('https://chancejs.com/chance.min.js')
             .then((res) => res.text())
@@ -501,7 +501,7 @@ const InfinityGauntlet: React.FC<InfinityGauntletProps> = ({
       >
         {canvases}
       </CanvasContainer>
-      {useWebviewHandler ? renderHiddenWebview() : undefined}
+      {useWebViewHandler ? renderHiddenWebview() : undefined}
     </View>
   );
 };
